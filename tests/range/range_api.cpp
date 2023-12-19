@@ -220,7 +220,7 @@ class test_range {
 void test_launch_kernel_1d_range(std::size_t N, sycl::queue q) {
   int* a = sycl::malloc_shared<int>(1, q);
   a[0] = 0;
-  q.parallel_for(N, [=](auto i) { a[0] = 1; }).wait_and_throw();
+  q.parallel_for(sycl::range(N), [=](auto i) { a[0] = 1; }).wait_and_throw();
   CHECK_VALUE_SCALAR(log, a[0], 1);
   sycl::free(a, q);
 }

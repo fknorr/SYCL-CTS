@@ -73,7 +73,7 @@ int numElements(const sycl::vec<T, numElems> &) {
 /* Generic function for both scalar and marray types to
  * return the number of elements in a type. */
 // FIXME: hipSYCL does not support marray
-#ifndef SYCL_CTS_COMPILING_WITH_HIPSYCL
+#if !SYCL_CTS_COMPILING_WITH_HIPSYCL && !SYCL_CTS_COMPILING_WITH_SIMSYCL
 template <typename T, size_t numElems>
 int numElements(const sycl::marray<T, numElems> &) {
   return numElems;
@@ -95,7 +95,7 @@ T getElement(sycl::vec<T, dim> &f, int ix) {
 }
 
 // FIXME: hipSYCL does not support marray
-#ifndef SYCL_CTS_COMPILING_WITH_HIPSYCL
+#if !SYCL_CTS_COMPILING_WITH_HIPSYCL && !SYCL_CTS_COMPILING_WITH_SIMSYCL
 /* Generic function for both scalar and vector types to
  * extract an individual element. */
 template <typename T, size_t dim>
@@ -119,7 +119,7 @@ sycl::vec<R, N> run_func_on_vector(funT fun, Args... args) {
 }
 
 // FIXME: hipSYCL does not support marray
-#ifndef SYCL_CTS_COMPILING_WITH_HIPSYCL
+#if !SYCL_CTS_COMPILING_WITH_HIPSYCL && !SYCL_CTS_COMPILING_WITH_SIMSYCL
 template <typename R, typename T, size_t N, typename funT, typename... Args>
 sycl::marray<R, N> run_func_on_marray(funT fun, Args... args) {
   sycl::marray<R, N> res;
@@ -145,7 +145,7 @@ sycl::vec<R, N> run_rel_func_on_vector(funT fun, Args... args) {
 }
 
 // FIXME: hipSYCL does not support marray
-#ifndef SYCL_CTS_COMPILING_WITH_HIPSYCL
+#if !SYCL_CTS_COMPILING_WITH_HIPSYCL && !SYCL_CTS_COMPILING_WITH_SIMSYCL
 template <typename T, size_t N, typename funT, typename... Args>
 sycl::marray<bool, N> run_rel_func_on_marray(funT fun, Args... args) {
   sycl::marray<bool, N> res;
@@ -172,7 +172,7 @@ run_func_on_vector_result_ref(funT fun, Args... args) {
 }
 
 // FIXME: hipSYCL does not support marray
-#ifndef SYCL_CTS_COMPILING_WITH_HIPSYCL
+#if !SYCL_CTS_COMPILING_WITH_HIPSYCL && !SYCL_CTS_COMPILING_WITH_SIMSYCL
 template <typename T, size_t N, typename funT, typename... Args>
 sycl_cts::resultRef<sycl::marray<T, N>> run_func_on_marray_result_ref(
     funT fun, Args... args) {
@@ -217,7 +217,7 @@ rel_func_dispatcher(sycl::vec<T, N> a, Args... args) {
 }
 
 // FIXME: hipSYCL does not support marray
-#ifndef SYCL_CTS_COMPILING_WITH_HIPSYCL
+#if !SYCL_CTS_COMPILING_WITH_HIPSYCL && !SYCL_CTS_COMPILING_WITH_SIMSYCL
 template <template <class> class funT, typename T, size_t N, typename... Args>
 sycl::marray<bool, N> rel_func_dispatcher(sycl::marray<T, N> a, Args... args) {
   return run_rel_func_on_marray<T, N>(funT<T>{}, a, args...);
@@ -238,7 +238,7 @@ rel_func_dispatcher(funT fun, sycl::vec<T, N> a, Args... args) {
 }
 
 // FIXME: hipSYCL does not support marray
-#ifndef SYCL_CTS_COMPILING_WITH_HIPSYCL
+#if !SYCL_CTS_COMPILING_WITH_HIPSYCL && !SYCL_CTS_COMPILING_WITH_SIMSYCL
 template <typename funT, typename T, size_t N, typename... Args>
 sycl::marray<bool, N> rel_func_dispatcher(funT fun, sycl::marray<T, N> a,
                                           Args... args) {

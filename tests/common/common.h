@@ -306,7 +306,7 @@ bool check_contains(const std::vector<T>& vec, const T& elem) {
 }
 
 // hipSYCL does not yet support sycl::marray
-#if !SYCL_CTS_COMPILING_WITH_HIPSYCL
+#if !SYCL_CTS_COMPILING_WITH_HIPSYCL && !SYCL_CTS_COMPILING_WITH_SIMSYCL
 /**
  * @brief Instantiation for marray with the same API as for scalar values
  * Deprecated. Use \c value_operations::are_equal instead
@@ -414,7 +414,7 @@ namespace pixel_tag {
 };
 
 // hipSYCL does not yet support images
-#if !SYCL_CTS_COMPILING_WITH_HIPSYCL
+#if !SYCL_CTS_COMPILING_WITH_HIPSYCL && !SYCL_CTS_COMPILING_WITH_SIMSYCL
 
 /**
  * @brief Helps with retrieving the right access type for reading/writing
@@ -599,6 +599,7 @@ inline bool device_supports_wg_size(sycl_cts::util::logger& log,
   return supports;
 }
 
+#if !SYCL_CTS_COMPILING_WITH_SIMSYCL
 /**
  * @brief Helper function to check work-group size kernel limit
  * @tparam kernelT Kernel to run onto
@@ -646,6 +647,8 @@ inline bool kernel_supports_wg_size(sycl_cts::util::logger& log,
   }
   return supports;
 }
+
+#endif
 
 }  // namespace
 
