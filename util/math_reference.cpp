@@ -125,7 +125,7 @@ double step(double a, double b) { return step_t(a, b); }
  */
 template <typename T>
 sycl_cts::resultRef<T> smoothstep_t(T a, T b, T c) {
-  if (std::isnan(a) || std::isnan(b) || std::isnan(c) || a >= b)
+  if (sycl::isnan(a) || sycl::isnan(b) || sycl::isnan(c) || a >= b)
     return sycl_cts::resultRef<T>(T(), true);
   auto t = clamp<T>((c - a) / (b - a), 0, 1).res;
   return t * t * (3 - 2 * t);
@@ -148,10 +148,10 @@ sycl_cts::resultRef<double> smoothstep(double a, double b, double c) {
 
 template <typename T>
 T sign_t(T a) {
-  if (std::isnan(a)) return 0.0;
+  if (sycl::isnan(a)) return 0.0;
   if (a > T(0)) return 1.0;
   if (a < T(0)) return -1.0;
-  if (std::signbit(a)) return -0.0;
+  if (sycl::signbit(a)) return -0.0;
   return +0.0;
 }
 
@@ -507,16 +507,16 @@ sycl::half fdim(sycl::half a, sycl::half b) {
 #endif
 
 sycl::half fract(sycl::half a, sycl::half *b) {
-  *b = std::floor(a);
-  return std::fmin(a - *b, nextafter(sycl::half(1.0), sycl::half(0.0)));
+  *b = sycl::floor(a);
+  return sycl::fmin(a - *b, nextafter(sycl::half(1.0), sycl::half(0.0)));
 }
 float fract(float a, float *b) {
-  *b = std::floor(a);
-  return std::fmin(a - *b, nextafter(1.0f, 0.0f));
+  *b = sycl::floor(a);
+  return sycl::fmin(a - *b, nextafter(1.0f, 0.0f));
 }
 double fract(double a, double *b) {
-  *b = std::floor(a);
-  return std::fmin(a - *b, nextafter(1.0, 0.0));
+  *b = sycl::floor(a);
+  return sycl::fmin(a - *b, nextafter(1.0, 0.0));
 }
 
 float nan(unsigned int a) { return std::nanf(std::to_string(a).c_str()); }
@@ -534,9 +534,9 @@ sycl::half modf(sycl::half a, sycl::half *b) {
 // hipSYCL does not yet support sycl::bit_cast
 #if !SYCL_CTS_COMPILING_WITH_HIPSYCL
 sycl::half nextafter(sycl::half x, sycl::half y) {
-  if (std::isnan(x)) return x;
+  if (sycl::isnan(x)) return x;
 
-  if (std::isnan(y)) return y;
+  if (sycl::isnan(y)) return y;
 
   if (x == y) return y;
 
@@ -595,7 +595,7 @@ sycl::double3 cross(sycl::double3 p0, sycl::double3 p1) {
 }
 
 // FIXME: hipSYCL does not support marray
-#ifndef SYCL_CTS_COMPILING_WITH_HIPSYCL
+#if !SYCL_CTS_COMPILING_WITH_HIPSYCL && !SYCL_CTS_COMPILING_WITH_SIMSYCL
 template <typename T, size_t N>
 sycl::marray<T, N> cross_t(sycl::marray<T, N> a, sycl::marray<T, N> b) {
   sycl::marray<T, N> res;
@@ -624,28 +624,28 @@ sycl::mdouble3 cross(sycl::mdouble3 p0, sycl::mdouble3 p1) {
 }
 #endif  // SYCL_CTS_COMPILING_WITH_HIPSYCL
 
-sycl::half fast_dot(float p0) { return std::pow(p0, 2); }
+sycl::half fast_dot(float p0) { return sycl::pow(p0, 2); }
 sycl::half fast_dot(sycl::float2 p0) {
-  return std::pow(p0.x(), 2) + std::pow(p0.y(), 2);
+  return sycl::pow(p0.x(), 2) + sycl::pow(p0.y(), 2);
 }
 sycl::half fast_dot(sycl::float3 p0) {
-  return std::pow(p0.x(), 2) + std::pow(p0.y(), 2) + std::pow(p0.z(), 2);
+  return sycl::pow(p0.x(), 2) + sycl::pow(p0.y(), 2) + sycl::pow(p0.z(), 2);
 }
 sycl::half fast_dot(sycl::float4 p0) {
-  return std::pow(p0.x(), 2) + std::pow(p0.y(), 2) + std::pow(p0.z(), 2) +
-         std::pow(p0.w(), 2);
+  return sycl::pow(p0.x(), 2) + sycl::pow(p0.y(), 2) + sycl::pow(p0.z(), 2) +
+         sycl::pow(p0.w(), 2);
 }
 // FIXME: hipSYCL does not support marray
-#ifndef SYCL_CTS_COMPILING_WITH_HIPSYCL
+#if !SYCL_CTS_COMPILING_WITH_HIPSYCL && !SYCL_CTS_COMPILING_WITH_SIMSYCL
 sycl::half fast_dot(sycl::mfloat2 p0) {
-  return std::pow(p0[0], 2) + std::pow(p0[1], 2);
+  return sycl::pow(p0[0], 2) + sycl::pow(p0[1], 2);
 }
 sycl::half fast_dot(sycl::mfloat3 p0) {
-  return std::pow(p0[0], 2) + std::pow(p0[1], 2) + std::pow(p0[2], 2);
+  return sycl::pow(p0[0], 2) + sycl::pow(p0[1], 2) + sycl::pow(p0[2], 2);
 }
 sycl::half fast_dot(sycl::mfloat4 p0) {
-  return std::pow(p0[0], 2) + std::pow(p0[1], 2) + std::pow(p0[2], 2) +
-         std::pow(p0[3], 2);
+  return sycl::pow(p0[0], 2) + sycl::pow(p0[1], 2) + sycl::pow(p0[2], 2) +
+         sycl::pow(p0[3], 2);
 }
 #endif
 

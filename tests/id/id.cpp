@@ -239,7 +239,7 @@ TEMPLATE_TEST_CASE_SIG("id can be implicitly conversion-constructed from item",
   q.submit([r, &result_buf](sycl::handler& cgh) {
      sycl::accessor result{result_buf, cgh, sycl::write_only};
      cgh.parallel_for<kernel_id<D>>(r, [=](sycl::item<D> itm) {
-       if (itm.get_id() == id<D>{r} - 1) {
+       if (itm.get_id() == id<D>{r} - 1ul) { // TODO SimSYCL: I had to change this from `- 1` to `- 1ul` to resolve ambiguity
          // Use assignment operator to trigger implicit conversion
          result[0] = itm;
        }

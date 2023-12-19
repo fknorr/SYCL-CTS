@@ -77,7 +77,7 @@ struct get_cts_object {
   template <class DeviceSelector = decltype(cts_selector)>
   static sycl::queue queue(DeviceSelector selector = cts_selector) {
     static cts_async_handler asyncHandler;
-#if !SYCL_CTS_COMPILING_WITH_HIPSYCL
+#if !SYCL_CTS_COMPILING_WITH_HIPSYCL && !SYCL_CTS_COMPILING_WITH_SIMSYCL
     return sycl::queue(selector, asyncHandler, sycl::property_list{});
 #else
     return sycl::queue(sycl::device(selector), asyncHandler,
@@ -96,6 +96,8 @@ struct get_cts_object {
     static cts_async_handler asyncHandler;
     return sycl::context(sycl::device(selector), asyncHandler);
   }
+
+#if !SYCL_CTS_COMPILING_WITH_SIMSYCL
 
   /**
     @brief Helper class that holds different methods for creating different
@@ -124,6 +126,8 @@ struct get_cts_object {
 #endif
     }
   };
+
+#endif
 
   /**
    * @brief Uniform way to retrieve a range of different dimensions by always
