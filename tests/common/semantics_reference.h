@@ -477,7 +477,7 @@ void check_kernel(InitFunc init_func, const std::string& type_name,
       cgh.parallel_for<kernel_name<T>>(
           sycl::nd_range<1>{sycl::range<1>{1}, sycl::range<1>{1}},
           [=](sycl::nd_item<1> nd_item) {
-            auto ptr = accessor.begin();
+            auto ptr = accessor.get_pointer();
             test_traits::run<T>(ptr);
             ptr += test_traits::result_count;
             test_copy::run<storage>(ptr, t);
@@ -485,7 +485,7 @@ void check_kernel(InitFunc init_func, const std::string& type_name,
             test_move::run<storage>(ptr, t);  // last since invalidates instance
             ptr += test_move::result_count;
             assert(static_cast<std::ptrdiff_t>(result_count) ==
-                   ptr - accessor.begin());
+                   ptr - accessor.get_pointer());
           });
     });
   }

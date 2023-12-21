@@ -61,7 +61,7 @@ bool equal_impl(const sycl::vec<T, N>& a, const U& b) {
 
 // FIXME: hipSYCL has not implemented sycl::marray type yet
 //        The warning is printed from group_shift.cpp and group_permute.cpp
-#ifndef SYCL_CTS_COMPILING_WITH_HIPSYCL
+#if !SYCL_CTS_COMPILING_WITH_HIPSYCL && !SYCL_CTS_COMPILING_WITH_SIMSYCL
 template <typename T, size_t N>
 bool equal_impl(const sycl::marray<T, N>& a, const sycl::marray<T, N>& b) {
   bool res = true;
@@ -229,7 +229,7 @@ using Types = unnamed_type_pack<float, char, int, unsigned long long int>;
 
 // FIXME: hipSYCL has not implemented sycl::marray type yet
 //        The warning is printed from group_shift.cpp and group_permute.cpp
-#ifdef SYCL_CTS_COMPILING_WITH_HIPSYCL
+#if SYCL_CTS_COMPILING_WITH_HIPSYCL || SYCL_CTS_COMPILING_WITH_SIMSYCL
 using ExtendedTypes =
     concatenation<FundamentalTypes,
                   std::tuple<bool, sycl::vec<unsigned int, 4>,

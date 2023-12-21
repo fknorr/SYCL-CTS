@@ -124,27 +124,27 @@ async def compile_all_async(build_dir: str, targets: list, parallel_jobs: int):
 
     proc = await asyncio.create_subprocess_shell(
         cmake_call,
-        stdout=asyncio.subprocess.PIPE,
+        stdout=asyncio.subprocess.DEVNULL,
         stderr=asyncio.subprocess.PIPE)
 
     # Forward only CMake progress outputs (unless --verbose is set)
-    progress_pattern = re.compile(r"^\[\d+/\d+\].*$")
-    print("")
-    while True:
-        monitor_memory_usage()
-        buf = await proc.stdout.readline()
-        if len(buf) == 0:
-            break
-        line = buf.decode()
-        if enable_verbose_logging:
-            log(line, level=LogLevel.VERBOSE)
-        elif progress_pattern.match(line):
-            if sys.stdout.isatty():
-                sys.stdout.write("\033[A")
-                sys.stdout.write("\033[K")
-                print('\r', end='')
-            print(line, end='')
-
+#     progress_pattern = re.compile(r"^\[\d+/\d+\].*$")
+#     print("")
+#     while True:
+#         monitor_memory_usage()
+#         buf = await proc.stdout.readline()
+#         if len(buf) == 0:
+#             break
+#         line = buf.decode()
+#         if enable_verbose_logging:
+#             log(line, level=LogLevel.VERBOSE)
+#         elif progress_pattern.match(line):
+#             if sys.stdout.isatty():
+#                 sys.stdout.write("\033[A")
+#                 sys.stdout.write("\033[K")
+#                 print('\r', end='')
+#             print(line, end='')
+# 
     await proc.wait()
     return proc
 
