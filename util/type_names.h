@@ -32,17 +32,17 @@ std::string type_name() {
 
 #define MAKENAME(X)                                                \
   {                                                                \
-    if (typeid(T) == typeid(X)) return std::string(#X); \
+    if constexpr (std::is_same_v<T, X>) return std::string(#X); \
   }
 
 #define MAKESYCLNAME(X)                                                      \
   {                                                                          \
-    if (typeid(T) == typeid(sycl::X)) return std::string(#X); \
+    if constexpr (std::is_same_v<T, sycl::X>) return std::string(#X); \
   }
 
 #define MAKESTDNAME(X)                                               \
   {                                                                  \
-    if (typeid(T) == typeid(::X)) return std::string(#X); \
+    if constexpr (std::is_same_v<T, ::X>) return std::string(#X); \
   }
 
   /* float types */
