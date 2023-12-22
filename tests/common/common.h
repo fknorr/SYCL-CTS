@@ -306,7 +306,7 @@ bool check_contains(const std::vector<T>& vec, const T& elem) {
 }
 
 // hipSYCL does not yet support sycl::marray
-#if !SYCL_CTS_COMPILING_WITH_HIPSYCL && !SYCL_CTS_COMPILING_WITH_SIMSYCL
+#if !SYCL_CTS_COMPILING_WITH_HIPSYCL
 /**
  * @brief Instantiation for marray with the same API as for scalar values
  * Deprecated. Use \c value_operations::are_equal instead

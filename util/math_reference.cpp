@@ -595,7 +595,7 @@ sycl::double3 cross(sycl::double3 p0, sycl::double3 p1) {
 }
 
 // FIXME: hipSYCL does not support marray
-#if !SYCL_CTS_COMPILING_WITH_HIPSYCL && !SYCL_CTS_COMPILING_WITH_SIMSYCL
+#ifndef SYCL_CTS_COMPILING_WITH_HIPSYCL
 template <typename T, size_t N>
 sycl::marray<T, N> cross_t(sycl::marray<T, N> a, sycl::marray<T, N> b) {
   sycl::marray<T, N> res;
