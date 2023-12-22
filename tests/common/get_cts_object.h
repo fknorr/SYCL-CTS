@@ -77,7 +77,7 @@ struct get_cts_object {
   template <class DeviceSelector = decltype(cts_selector)>
   static sycl::queue queue(DeviceSelector selector = cts_selector) {
     static cts_async_handler asyncHandler;
-#if !SYCL_CTS_COMPILING_WITH_HIPSYCL && !SYCL_CTS_COMPILING_WITH_SIMSYCL
+#if !SYCL_CTS_COMPILING_WITH_HIPSYCL
     return sycl::queue(selector, asyncHandler, sycl::property_list{});
 #else
     return sycl::queue(sycl::device(selector), asyncHandler,
