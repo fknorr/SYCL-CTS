@@ -134,12 +134,12 @@ constexpr std::string_view for_target() {
     return "device";
   } else if constexpr (Target == sycl::access::target::host_buffer) {
     return "host_buffer";
-  } else if constexpr (Target == sycl::access::target::host_image) {
-    return "host_image";
-  } else if constexpr (Target == sycl::access::target::image) {
-    return "image";
-  } else if constexpr (Target == sycl::access::target::image_array) {
-    return "image_array";
+  // } else if constexpr (Target == sycl::access::target::host_image) {
+  //   return "host_image";
+  // } else if constexpr (Target == sycl::access::target::image) {
+  //   return "image";
+  // } else if constexpr (Target == sycl::access::target::image_array) {
+  //   return "image_array";
   } else if constexpr (Target == sycl::access::target::local) {
     return "local";
   } else if (Target == sycl::access::target::global_buffer) {
