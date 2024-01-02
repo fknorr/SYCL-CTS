@@ -92,8 +92,14 @@ template <int dim> void check_dim(util::logger &log) {
                 local_range_total>(local_range, local_range);
         cgh.parallel_for_work_group<kernel<dim>>(
             groupRange, localRange, [=](sycl::group<dim> group_pid) {
+              // there is no id -> range conversion in the spec
+              // TODO see if default-constructible in all implementations
+              sycl::range<dim> itemRange;
+              for (int d = 0; d < dim; ++d) {
+                itemRange[d] = group_pid.get_id()[d];
+              }
               group_pid.parallel_for_work_item(
-                  sycl::range<dim>(group_pid.get_id()),
+                  itemRange,
                   [&](sycl::h_item<dim> item_id) {
                     unsigned physical_local_d1 =
                         item_id.get_physical_local()[0];
