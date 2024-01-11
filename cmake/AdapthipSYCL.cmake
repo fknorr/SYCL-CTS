@@ -1,5 +1,5 @@
 add_library(SYCL::SYCL INTERFACE IMPORTED GLOBAL)
-target_link_libraries(SYCL::SYCL INTERFACE hipSYCL::hipSYCL-rt)
+target_link_libraries(SYCL::SYCL INTERFACE hipSYCL::acpp-rt)
 # add_sycl_executable_implementation function
 # Builds a SYCL program, compiling multiple SYCL test case source files into a
 # test executable, invoking a single-source/device compiler
@@ -28,5 +28,4 @@ function(add_sycl_executable_implementation)
         COMPILE_OPTIONS     $<TARGET_PROPERTY:${exe_name},COMPILE_OPTIONS>
         COMPILE_FEATURES    $<TARGET_PROPERTY:${exe_name},COMPILE_FEATURES>
         POSITION_INDEPENDENT_CODE ON)
-
 endfunction()
