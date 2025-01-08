@@ -59,6 +59,8 @@ jobs:
             version: 2025-01-14
           - sycl-impl: adaptivecpp
             version: 061e2d6ffe1084021d99f22ac1f16e28c6dab899
+          - sycl-impl: simsycl
+            version: 39368b9a54f1b6a5d9d583497dbf56e5bb8b5543
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -117,6 +119,8 @@ jobs:
             version: 2025-01-14
           - sycl-impl: adaptivecpp
             version: 061e2d6ffe1084021d99f22ac1f16e28c6dab899
+          - sycl-impl: simsycl
+            version: 39368b9a54f1b6a5d9d583497dbf56e5bb8b5543
     env:
       container-workspace: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
       parallel-build-jobs: 2
