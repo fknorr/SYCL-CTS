@@ -68,8 +68,8 @@ TEST_CASE(
 #ifndef SYCL_LANGUAGE_VERSION
   FAIL("SYCL_LANGUAGE_VERSION is not defined");
 #else
-  STATIC_REQUIRE(std::is_same_v<decltype(SYCL_LANGUAGE_VERSION), long>);
-  STATIC_REQUIRE(SYCL_LANGUAGE_VERSION == 202012L);
+  CHECK(std::is_same_v<decltype(SYCL_LANGUAGE_VERSION), long>);
+  CHECK(SYCL_LANGUAGE_VERSION == 202012L);
 #endif
 }
 
